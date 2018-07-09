@@ -131,7 +131,7 @@ exports.baseUrl = baseUrl;
 exports.strongIdBaseUrl = strongIdBaseUrl;
 var redirectUrlConstant = exports.redirectUrlConstant = 'http://example.com';
 var basePiwikUrl = exports.basePiwikUrl = 'http://afd344c85577211e8ab651208c1cd18a-472041436.us-east-1.elb.amazonaws.com/edge/';//'https://' + baseUrl + '/hybris/profile-edge/v1/';
-basePiwikUrl = exports.basePiwikUrl = 'https://' + baseUrl + '/hybris/profile-edge/v1/';
+//basePiwikUrl = exports.basePiwikUrl = 'https://' + baseUrl + '/hybris/profile-edge/v1/';
 var baseAuthUrl = exports.baseAuthUrl = 'https://' + baseUrl + '/hybris/customerlogin/v1/auth/anonymous/login';
 var optInUrl = exports.optInUrl = 'https://' + baseUrl + '/hybris/profile-consent/v1/';
 var strongIdUrl = exports.strongIdUrl = 'https://' + strongIdBaseUrl + '/id/';
