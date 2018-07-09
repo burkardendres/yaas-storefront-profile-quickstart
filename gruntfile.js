@@ -88,7 +88,7 @@ module.exports = function (grunt) {
 
     var getProfileTagUrl = function () {
         if (ENV_ID === 'STAGE') {
-            return 'https://s3.amazonaws.com/profile-tag/js/us-stage/profile-tag.js';
+            return 'http://localhost:9000/js/demohack/profile-tag.js';
         }
         if (REGION_CODE === 'EU') {
             return 'https://s3.amazonaws.com/profile-tag/js/eu-prod/profile-tag.js';
