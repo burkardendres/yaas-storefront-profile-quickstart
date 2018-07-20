@@ -1601,8 +1601,8 @@ function getAccessToken(tenantId, clientId, redirectUrl, callBack) {
     }
     // If token not in cache go and fetch a new one
     // ToDo Demo hack hard coded JWT token
-	var accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjRkZWJhNzg2LTQyZGEtMTFlOC04NDJmLTBlZDVmODlmNzE4YiJ9.eyJzdWIiOiJwcm9maWxlLnNjaXByb3ZpZGVyIiwidmVyIjoiMSIsImlzcyI6InByb2ZpbGUtYXV0aG9yaXphdGlvbi1zZXJ2aWNlIiwiZXhwIjoxNTYyNzUxMjkxLCJpYXQiOjE1MzEyMTUyOTEsInVzZXIiOiJQMDAwMDEwIiwidGVuYW50Ijoib3Jrc2JlYXQifQ.l0Eks3s0EnyMpX7yxxJNTK8Kk3hwMQ7I3AV31CqdReg1Okdxvdbn8zkrej5gpzwjQ2TYPK5xOwtFFbIPEqLzCcaJrFmAMzEHG3UrNP1cJLzKvRXMrdoIdoJsA93zTAtu5ZscCHiSRZmOYywo8ihqFChLFBJEzX79ge7fZwBZEAODyNEzVzt2jGH0JJ-ydc_BsCi394bTR0z2DCWVTcVUyuUz61fuqQdNV3dsV52bkniExEr3rBJKNdunGUyOb3dUDOIsgElZoUVJjFa0c8qCn3tTF_V_-BoW8hap3zDfWq0waEnCyc1IQtvk3DoZge8kkR9iVX148XOjiUw1X7wWOA';
-	var expirationDate = getExpirationDateFromResponse();
+	var accessToken = add your token here
+  var expirationDate = getExpirationDateFromResponse();
 	localCache.setCacheItem(authTokenName, accessToken, expirationDate);
 	callBack(null, accessToken);
 }
