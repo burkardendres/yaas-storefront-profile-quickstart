@@ -130,10 +130,16 @@ exports.env = env;
 exports.baseUrl = baseUrl;
 exports.strongIdBaseUrl = strongIdBaseUrl;
 var redirectUrlConstant = exports.redirectUrlConstant = 'http://example.com';
-var basePiwikUrl = exports.basePiwikUrl = 'http://afd344c85577211e8ab651208c1cd18a-472041436.us-east-1.elb.amazonaws.com/edge/';//'https://' + baseUrl + '/hybris/profile-edge/v1/';
+
+var basePiwikUrl = exports.basePiwikUrl = 'https://afd344c85577211e8ab651208c1cd18a-472041436.us-east-1.elb.amazonaws.com/edge/';//'https://' + baseUrl + '/hybris/profile-edge/v1/';
 //basePiwikUrl = exports.basePiwikUrl = 'https://' + baseUrl + '/hybris/profile-edge/v1/';
 var baseAuthUrl = exports.baseAuthUrl = 'https://' + baseUrl + '/hybris/customerlogin/v1/auth/anonymous/login';
+
 var optInUrl = exports.optInUrl = 'https://' + baseUrl + '/hybris/profile-consent/v1/';
+optInUrl = exports.optInUrl = 'https://afd344c85577211e8ab651208c1cd18a-472041436.us-east-1.elb.amazonaws.com/consent-v1/';
+//optInUrl = exports.optInUrl = 'https://consent-v1.profile.v2.k8s.stage.yaas.io/';
+
+
 var strongIdUrl = exports.strongIdUrl = 'https://' + strongIdBaseUrl + '/id/';
 var strongIdPxUrl = exports.strongIdPxUrl = 'https://' + strongIdBaseUrl + '/idpx/';
 
@@ -1067,6 +1073,7 @@ function addEventsToSelector(selector, jsEvent, callbackFunction) {
  */
 function requestConsentReference(cb) {
     var configParameters = config.getConfigParameters();
+    var tenant = '' + configParameters.tenant;
     ajax.getAccessToken(configParameters.tenant, configParameters.clientId, 'http://example.com', function (err, token) {
         if (err) {
             cb(err);
@@ -1080,6 +1087,9 @@ function requestConsentReference(cb) {
                 'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
+                //,
+                //'hybris-client':  tenant + '.test',
+                //'hybris-tenant': tenant
             }
         }, function (consentRefErr, response) {
             if (consentRefErr) {
@@ -1590,18 +1600,13 @@ function getAccessToken(tenantId, clientId, redirectUrl, callBack) {
         return;
     }
     // If token not in cache go and fetch a new one
-    var url = config.baseAuthUrl + '?client_id=' + clientId + '&redirect_uri=' + encodeURIComponent(redirectUrl) + '&hybris-tenant=' + tenantId;
-    get(url, function (err, response) {
-        if (err) {
-            callBack(err);
-            return;
-        }
-        var accessToken = response.body.access_token;
-        var expirationDate = getExpirationDateFromResponse(response);
-        localCache.setCacheItem(authTokenName, accessToken, expirationDate);
-        callBack(null, accessToken);
-    });
+    // ToDo Demo hack hard coded JWT token
+	var accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjRkZWJhNzg2LTQyZGEtMTFlOC04NDJmLTBlZDVmODlmNzE4YiJ9.eyJzdWIiOiJwcm9maWxlLnNjaXByb3ZpZGVyIiwidmVyIjoiMSIsImlzcyI6InByb2ZpbGUtYXV0aG9yaXphdGlvbi1zZXJ2aWNlIiwiZXhwIjoxNTYyNzUxMjkxLCJpYXQiOjE1MzEyMTUyOTEsInVzZXIiOiJQMDAwMDEwIiwidGVuYW50Ijoib3Jrc2JlYXQifQ.l0Eks3s0EnyMpX7yxxJNTK8Kk3hwMQ7I3AV31CqdReg1Okdxvdbn8zkrej5gpzwjQ2TYPK5xOwtFFbIPEqLzCcaJrFmAMzEHG3UrNP1cJLzKvRXMrdoIdoJsA93zTAtu5ZscCHiSRZmOYywo8ihqFChLFBJEzX79ge7fZwBZEAODyNEzVzt2jGH0JJ-ydc_BsCi394bTR0z2DCWVTcVUyuUz61fuqQdNV3dsV52bkniExEr3rBJKNdunGUyOb3dUDOIsgElZoUVJjFa0c8qCn3tTF_V_-BoW8hap3zDfWq0waEnCyc1IQtvk3DoZge8kkR9iVX148XOjiUw1X7wWOA';
+	var expirationDate = getExpirationDateFromResponse();
+	localCache.setCacheItem(authTokenName, accessToken, expirationDate);
+	callBack(null, accessToken);
 }
+
 
 function getMappings(url, callBack) {
     get(url, function (err, response) {
@@ -1616,7 +1621,7 @@ function getMappings(url, callBack) {
 
 function getExpirationDateFromResponse(response) {
     var lagTimeInSeconds = 3 * 60;
-    var expireInSeconds = response.body.expires_in - lagTimeInSeconds;
+    var expireInSeconds = 360000000 - lagTimeInSeconds;
     var expireInMiliSeconds = expireInSeconds * 1000;
     var expirationDate = new Date();
     expirationDate.setMilliseconds(expirationDate.getMilliseconds() + expireInMiliSeconds);
